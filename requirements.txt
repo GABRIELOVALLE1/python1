@@ -1,5 +1,5 @@
 dash
 plotly.express
 pandas
-dash_boostrap_components
+dash_bootstrap_components
 gunicorn
