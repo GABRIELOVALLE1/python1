@@ -1,0 +1,14 @@
+selenium 
+selenium.webdriver.chrome.service 
+selenium.webdriver.support.ui 
+selenium.webdriver.common.by 
+datetime 
+pandas 
+numpy 
+plotly 
+plotly.express
+dash
+dash_core_components 
+dash_html_components
+Input, Output
+dash_table
