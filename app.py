@@ -1,52 +1,21 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.support.ui import Select
-from selenium.webdriver.common.by import By
+
 from datetime import datetime, timedelta
 import pandas as pd
 import numpy as np
 
-server=app.server
 
-#Establecer carperta donde va a guardar el archivo. 
-options=webdriver.ChromeOptions()
-prefs={"download.default_directory":r"/Users/juanhernandez/Desktop/python"}
-options.add_experimental_option("prefs",prefs)
 
-s=Service("/Users/juanhernandez/Desktop/python/chromedriver-mac-x64/chromedriver")
-driver=webdriver.Chrome(service=s,options=options)
-driver.get("https://www.banguat.gob.gt/tipo_cambio/")
-
-date=datetime(2023,1,1)
-date
-d=date.strftime("%d/%m/%y")
-d
-
-#inspeccionar el codigo html de la pagina y buscar el xpath de los filtros
-driver.find_element("xpath",
-                    "/html/body/div[1]/div/div/div/form[3]/table/tbody/tr[2]/td/div[1]/div/div[2]/div/input").clear()
-driver.find_element("xpath",
-                    "/html/body/div[1]/div/div/div/form[3]/table/tbody/tr[2]/td/div[1]/div/div[2]/div/input").click()
-driver.find_element("xpath",
-                    "/html/body/div[1]/div/div/div/form[3]/table/tbody/tr[2]/td/div[1]/div/div[2]/div/input").send_keys(d)
-
-#Consultar la informacion
-driver.find_element("xpath",
-                    "/html/body/div[1]/div/div/div/form[3]/table/tbody/tr[2]/td/div[2]/div/input").click()
-
-#Descargar la informacion
-driver.find_element("xpath","/html/body/div/div/div/button").click()
 
 #Tipo de cambio 
-tp=pd.read_csv("/Users/juanhernandez/Desktop/python/histórico_rango-2.csv")
+tp=pd.read_csv("tipodecambio.csv")
 tp
 
 #Inflacion
-INF=pd.read_csv("/Users/juanhernandez/Desktop/python/sr005.csv")
+INF=pd.read_csv("inflacion.csv")
 INF
 
 #PIB
-PIB=pd.read_csv("/Users/juanhernandez/Desktop/python/5._PIB_per_capita.csv")
+PIB=pd.read_csv("pib.csv")
 PIB
 
 import plotly as pl
@@ -64,6 +33,8 @@ tp_monthly = tp.resample('M', on='Fecha').mean()
 
 
 app3 = dash.Dash(__name__)
+
+server=app3.server
 
 app3.layout = html.Div([
     html.H1("Tipo de Cambio"),
@@ -141,7 +112,7 @@ app.layout = html.Div([
 ])
 
 
-@app.callback(
+@app3.callback(
     Output("line-plot", "figure"),
     Output("scatter-plot", "figure"),
     [Input("variableSelector", "value"),
